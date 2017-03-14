@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Lisa</title>
+    <link rel="stylesheet" href="lib/framework7.material.min.css">
+    <link rel="stylesheet" href="lib/framework7.material.colors.css">
+    <link rel="stylesheet" href="css/iconfont/material-icons.css">
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body class="theme-deep-purple">
+
+    <div id="app">
+      <f7-views>
+        <f7-view main>
+          <f7-pages navbar-fixed>
+
+            <f7-page name="home">
+
+              <f7-navbar>
+                <f7-nav-left>
+                  <f7-link icon-material="add" href="/add/" v-if="connected"></f7-link>
+                </f7-nav-left>
+                 <f7-nav-center>Lisa</f7-nav-center>
+                 <f7-nav-right>
+                   <f7-link icon-material="settings" href="/settings/" v-if="connected"></f7-link>
+                 </f7-nav-right>
+              </f7-navbar>
+
+              <!-- BLOC SI AUCUNE ADRESSE N'EST ENREGISTRÉE -->
+              <f7-block v-if="noAddress">
+
+                <p>
+                  Pour connecter l'application au serveur Lisa, renseignez-l'adresse IP de votre serveur sur le réseau local
+                </p>
+
+                <f7-list form>
+                  <f7-list-item>
+                    <f7-input v-model="address" type="text" placeholder="ex : 192.168.0.10"/>
+                  </f7-list-item>
+                  <p>
+                    <f7-button class="button" v-show="address" v-on:click="connect" raised fill>Se connecter</f7-button>
+                  </p>
+                <f7-list>
+
+              </f7-block>
+
+              <div v-else>
+                <!-- BLOC LORSQUE L'APPLI EST CONNECTÉ -->
+
+                <f7-block v-if="connected">
+
+                  <f7-card class="no-border" valign="bottom">
+                    Réveil : {{ address }}
+                  </f7-card>
+
+                  
+
+                  <!-- LAMPS -->
+                  <f7-card v-if="lamps">
+                    <!-- <f7-list>
+                      <f7-list-item v-for="ligne in tableau">{{ligne.title}}</f7-list-item>
+                    </f7-list> -->
+                  </f7-card>
+
+                </f7-block>
+
+                <!-- BLOC LORSQUE L'APPLI NE PARVIENT PAS À SE CONNECTER À L'ADRESSE ENREGISTRÉE -->
+                <f7-block v-else>
+
+                  <p><b>Erreur de connexion :</b> assurez-vous que le serveur Lisa est bien lancé, et connecté sur le même reséau local que votre appareil.</p>
+                  <p>
+                    <f7-button v-on:click="reconnect" raised fill>Réessayer</f7-button>
+                  </p>
+                  <p>
+                    <f7-button v-on:click="changeAddress" raised fill>Modifier l'adresse</f7-button>
+                  </p>
+                </f7-block>
+
+              </div>
+
+
+            </f7-page>
+
+          </f7-pages>
+        </f7-view>
+      </f7-views>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7.min.js"></script>
+    <script type="text/javascript" src="lib/vue.js"></script>
+    <script type="text/javascript" src="lib/framework7-vue.js"></script>
+    <script type="text/javascript" src="lib/socket.io.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/connect.js"></script>
+  </body>
+</html>
