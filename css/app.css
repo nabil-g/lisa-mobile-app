@@ -2,7 +2,23 @@
 	font-family: "Satisfy";
 	src: url('Satisfy-Regular.ttf');
 }
-/*
-.navbar .center{
-  font-family: "Satisfy";
-}*/
+
+[v-cloak] {
+  display: none; /* allows to hide the element until the vue instance is ready (to make the vue syntax invisible) */
+}
+
+img{
+	width: 90px;
+}
+
+.player-card{
+	text-align: center;
+}
+
+.player-card .material-icons{
+	font-size: 34px;
+}
+
+.active{
+	color: red;
+}
