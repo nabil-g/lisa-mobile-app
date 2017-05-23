@@ -1,7 +1,5 @@
 Vue.use(Framework7Vue);
 
-var $$ = Dom7;
-
 var app = new Vue({
   el: "#app",
   framework7: {
@@ -10,7 +8,8 @@ var app = new Vue({
     material: true
   },
   data: {
-    inputDatetime: '',
+    inputDate: '',
+    inputTime: '',
     inputReminderText: '',
     address: localStorage.lisaAddress,
     musicStatus: {
@@ -82,12 +81,12 @@ var app = new Vue({
         this.socket.emit('music', 'stop');
       },
       stopLisa: function () {
-        if (confirm('Do you want really want to shutdown the server ?')) {
+        if (confirm('Voulez-vous vraiment interrompre Lisa ?')) {
           this.socket.emit("cmd", "stop");
         }
       },
       shutdown: function () {
-        if (confirm('Do you want really want to shutdown the server ?')) {
+        if (confirm('Voulez-vous vraiment éteindre le serveur ?')) {
           this.socket.emit('cmd',"shutdown");
         }
       },
@@ -95,8 +94,9 @@ var app = new Vue({
         this.socket.emit('refresh',"");
       },
       addReminder: function () {
-        this.settings.reminders.unshift({date: this.inputDatetime, text: this.inputReminderText});
-        this.inputDatetime = '';
+        this.settings.reminders.unshift({date: this.inputDate, time: this.inputTime, text: this.inputReminderText});
+        this.inputDate = '';
+        this.inputTime = '';
         this.inputReminderText = '';
       },
       deleteReminder: function (index) {
@@ -104,14 +104,6 @@ var app = new Vue({
       }
   },
   computed: {
-    areDevices: function () {
-      if (Object.keys(this.settings.devices).length > 0) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    },
     degreesUnits: function () {
       if (this.settings.weather.units == "imperial") {
         return "F";
@@ -130,6 +122,11 @@ var app = new Vue({
         var time = value.split(':');
         this.settings.alarm.heures = time[0];
         this.settings.alarm.minutes = time[1];
+      }
+    },
+    reminderFormFilled: function () {
+      if (this.inputTime && this.inputDate && this.inputReminderText) {
+        return true;
       }
     }
   },

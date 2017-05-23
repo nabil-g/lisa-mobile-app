@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="lib/Framework7-1.5.3/dist/css/framework7.material.min.css">
     <link rel="stylesheet" href="lib/Framework7-1.5.3/dist/css/framework7.material.colors.css">
     <link rel="stylesheet" href="lib/iconfont/material-icons.css">
+    <link rel="stylesheet" href="lib/vue2-animate.min.css">
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
@@ -80,7 +81,7 @@
                               </p>
                               </f7-col>
                               <p style="color: grey;font-style: italic">
-                                Last update : {{ weather.dt | moment }}
+                                Dernière mise à jour : {{ weather.dt | moment }}
                               </p>
                             </f7-grid>
 
@@ -94,15 +95,12 @@
                     <!-- ALARM -->
                       <f7-col width="100" tablet-width="25">
                         <f7-card>
-                          <f7-card-header>
-                            <f7-icon material="alarm"></f7-icon>
-                            Alarm
-                          </f7-card-header>
                           <f7-card-content>
 
                             <f7-list form>
 
                               <f7-list-item>
+                                Alarme
                                 <f7-input type="switch" v-model.lazy="settings.alarm.enabled"></f7-input>
                               </f7-list-item>
 
@@ -136,13 +134,13 @@
 
 <!-- POP-UPS -->
 
-        <!-- REMINDERS -->
+        <!-- RAPPELS -->
         <f7-popup class="popup reminders-popup">
           <f7-view>
             <f7-pages navbar-fixed>
               <f7-page>
                 <f7-navbar>
-                  <f7-nav-center>Reminders</f7-nav-center>
+                  <f7-nav-center>Rappels</f7-nav-center>
                   <f7-nav-right>
                     <f7-link icon-material="close" href="#" class="close-popup"></f7-link>
                   </f7-nav-right>
@@ -150,28 +148,34 @@
 
                 <f7-list form>
                   <f7-list-item>
-                    <f7-label>Select date</f7-label>
-                    <f7-input type="datetime-local" v-model.lazy="inputDatetime"></f7-input>
+                    <f7-label>Sélectionnez la date</f7-label>
+                    <f7-input type="date" v-model.lazy="inputDate"></f7-input>
+                    <f7-label>Sélectionnez l'heure</f7-label>
+                    <f7-input type="time" v-model.lazy="inputTime"></f7-input>
                   </f7-list-item>
                   <f7-list-item>
-                    <f7-label floating>Text to be spoken</f7-label>
-                    <f7-input type="textarea" v-model.lazy="inputReminderText"></f7-input>
-                    <f7-button raised fill color="green" @click="addReminder">Add</f7-button>
+                    <f7-label floating>Texte à lire</f7-label>
+                    <f7-input type="textarea" maxlength="190" v-model.lazy="inputReminderText"></f7-input>
+                    <transition name="fade">
+                      <f7-button color="green" @click="addReminder" v-if="reminderFormFilled">Ajouter</f7-button>
+                    </transition>
+
                   </f7-list-item>
                 </f7-list>
 
                 <f7-block>
-                  <f7-card v-for="(reminder, index) in settings.reminders">
-                    <f7-list>
-                      <f7-list-item>
-                        <f7-input type="datetime-local" v-model="settings.reminders[index].date"></f7-input>
-                        <f7-button color="red" icon-material="delete" @click="deleteReminder(index)"></f7-button>
-                      </f7-list-item>
-                      <f7-list-item>
-                        <f7-input type="textarea" v-model="settings.reminders[index].text"></f7-input>
-                      </f7-list-item>
-                    </f7-list>
-                  </f7-card>
+                    <f7-card v-for="(reminder, index) in settings.reminders">
+                      <f7-list>
+                        <f7-list-item>
+                          <f7-input type="date" v-model="settings.reminders[index].date" placeholder="Date"></f7-input>
+                          <f7-input type="time" v-model.lazy="settings.reminders[index].time" placeholder="Heure"></f7-input>
+                          <f7-button color="red" icon-material="delete" @click="deleteReminder(index)"></f7-button>
+                        </f7-list-item>
+                        <f7-list-item>
+                          <f7-input type="textarea" v-model="settings.reminders[index].text" placeholder="Texte à lire" maxlength="190"></f7-input>
+                        </f7-list-item>
+                      </f7-list>
+                    </f7-card>
                 </f7-block>
 
               </f7-page>
@@ -186,101 +190,102 @@
             <f7-pages navbar-fixed>
               <f7-page>
                 <f7-navbar>
-                   <f7-nav-center>Settings</f7-nav-center>
+                   <f7-nav-center>Paramètres</f7-nav-center>
                    <f7-nav-right>
                      <f7-link icon-material="close" href="#" class="close-popup"></f7-link>
                    </f7-nav-right>
                 </f7-navbar>
 
-                <f7-block-title>General</f7-block-title>
+                <f7-block-title>Général</f7-block-title>
+                <f7-block>
 
                 <f7-list tablet-inset form>
                   <f7-list-item>
-                    <f7-label>App language</f7-label>
+                    <f7-label>Langue de l'application</f7-label>
                     <f7-input type="select" v-model.lazy="settings.appLanguage">
-                      <option value="en">English</option>
                       <option value="fr">Français</option>
                     </f7-input>
                   </f7-list-item>
                   <f7-list-item>
-                    <f7-label>Voice recognition and speech synthesis language</f7-label>
+                    <f7-label>Langue de la reconnaissance vocale et de la synthèse vocale</f7-label>
                     <f7-input type="select" v-model.lazy="settings.voiceLanguage">
-                      <option value="en">English</option>
                       <option value="fr">Français</option>
                     </f7-input>
                     <f7-list-item>
                       <f7-icon slot="media" material="music_note"></f7-icon>
-                      <f7-label>Music on wake</f7-label>
+                      <f7-label>Musique au réveil</f7-label>
                       <f7-input type="switch" v-model.lazy="settings.alarm.music_onwake"></f7-input>
                     </f7-list-item>
                   </f7-list-item>
 
                 </f7-list>
+              </f7-block>
 
-            <f7-block-title>Mail notifications on wake</f7-block-title>
+            <f7-block-title>Paramètres e-mail</f7-block-title>
+            <f7-block>
+
             <f7-list tablet-inset form>
 
               <f7-list-item>
                 <f7-icon slot="media" material="check"></f7-icon>
-                <f7-label>Enable</f7-label>
+                <f7-label>Activer</f7-label>
                 <f7-input type="switch" v-model.lazy="settings.mail.enabled"></f7-input>
               </f7-list-item>
 
-              <f7-list-item v-if="settings.mail.enabled">
+              <f7-list-item>
                 <f7-icon slot="media" material="http"></f7-icon>
-                <f7-label>Host</f7-label>
+                <f7-label>Adresse serveur</f7-label>
                 <f7-input type="url" v-model.lazy="settings.mail.host"></f7-input>
               </f7-list-item>
 
-              <f7-list-item v-if="settings.mail.enabled">
+              <f7-list-item>
                 <f7-icon slot="media" material="person"></f7-icon>
-                <f7-label>Username (address)</f7-label>
+                <f7-label>Nom d'utilisateur (adresse)</f7-label>
                 <f7-input type="email" v-model.lazy="settings.mail.username"></f7-input>
               </f7-list-item>
 
-              <f7-list-item v-if="settings.mail.enabled">
+              <f7-list-item>
                 <f7-icon slot="media" material="lock"></f7-icon>
-                <f7-label>Password</f7-label>
+                <f7-label>Mot de passe</f7-label>
                 <f7-input type="password" v-model.lazy="settings.mail.password"></f7-input>
               </f7-list-item>
 
             </f7-list>
+          </f7-block>
 
 
-            <f7-block-title>Weather</f7-block-title>
+            <f7-block-title>Météo</f7-block-title>
 
             <f7-block>
             <f7-list tablet-inset form>
               <f7-list-item>
                 <f7-icon slot="media" material="vpn_key"></f7-icon>
-                <f7-label>API key</f7-label>
+                <f7-label>Clé d'API</f7-label>
                 <f7-input type="text" v-model.lazy="settings.weather.weather_id"></f7-input>
               </f7-list-item>
 
               <f7-list-item>
                 <f7-icon slot="media" material="place"></f7-icon>
-                <f7-label>City ID</f7-label>
+                <f7-label>N° ville</f7-label>
                 <f7-input type="text" v-model.lazy="settings.weather.cityID"></f7-input>
               </f7-list-item>
 
               <f7-list-item>
                 <f7-icon slot="media" material="language"></f7-icon>
-                <f7-label>Units</f7-label>
+                <f7-label>Unités de température</f7-label>
                 <f7-input type="select" v-model.lazy="settings.weather.units">
                   <option value="metric">Celsius</option>
                   <option value="imperial">Fahrenheit</option>
                   <option value="">Kelvin</option>
                 </f7-input>
               </f7-list-item>
-
-              <f7-list-label><i>Please note that your settings are stored without any encryption in a JSON file.</i></f7-list-label>
             </f7-list>
 
             <p>
-              <f7-button color="red" @click="stopLisa" raised fill>Stop Lisa</f7-button>
+              <f7-button color="red" @click="stopLisa" raised fill>Interrompre Lisa</f7-button>
             </p>
             <p>
-              <f7-button color="green" @click="shutdown" raised fill>Shutdown the host server</f7-button>
+              <f7-button color="green" @click="shutdown" raised fill>Éteindre le serveur</f7-button>
             </p>
           </f7-block>
           </f7-page>
@@ -291,6 +296,7 @@
 
       </f7-views>
 
+      <!--IF NO ADDRESS -->
 
       <f7-login-screen>
         <f7-view>
@@ -299,23 +305,23 @@
               <f7-login-screen-title>Lisa</f7-login-screen-title>
               <f7-block>
 
-                <!--IF NO ADDRESS -->
-                <div>
+
                   <p>
-                    To connect to a Lisa server, please enter the IP address of the server over the local network.
+                    Pour vous connecter au serveur Lisa, entrez son adresse IP sur le réseau local.
                   </p>
 
-                  <f7-list form v-on:submit.prevent>
+                  <f7-list>
                     <f7-list-item>
                       <f7-input v-model.lazy="address" type="text" placeholder="ex : 192.168.0.10"/>
                     </f7-list-item>
-                    <p>
-                      <f7-button v-show="address" @click="connect" raised fill>Connect</f7-button>
-                    </p>
+                    <f7-list-item>
+                      <transition name="fade">
+                        <f7-button v-if="address" @click="connect" >Connecter</f7-button>
+                      </transition>
+                    </f7-list-item>
                   <f7-list>
 
 
-                </div>
 
 
               </f7-block>

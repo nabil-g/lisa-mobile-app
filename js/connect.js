@@ -15,7 +15,7 @@ function socketCo() {
     app.$f7.closeModal();
     app.$f7.loginScreen();
     app.$f7.closeNotification('.notifications');
-    app.$f7.alert("<b>Error</b> : no connection ! Check your local network or the address of the host server.",["Lisa"]);
+    app.$f7.alert("<b>Erreur</b> : problème de connexion. Vérifiez votre réseau local ou l'adresse du serveur Lisa.",["Lisa"]);
   });
 
   socket.on('connect', function () {
@@ -26,7 +26,7 @@ function socketCo() {
   socket.on('client', function (data) {
     if (data == true) {
       app.$f7.closeNotification('.notifications');
-      app.$f7.addNotification({message: "Another client is connected !"});
+      app.$f7.addNotification({message: "Un autre client est connecté !"});
     }
   });
 
