@@ -20,6 +20,9 @@
     "automation",
     "home"
   ],
+  "dependencies": {
+    "vuejs-datepicker": "^0.7"
+  },
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -30,11 +33,12 @@
     "gulp-load-plugins": "^1.5.0",
     "gulp-uglify": "^3.0.0",
     "gulp-useref": "^3.1.2",
+    "gulp-webserver": "^0.9.1",
     "pump": "^1.0.2",
     "run-sequence": "^1.2.2"
   },
   "author": "Nabil Ghedjati",
-  "license": "CC-BY-NC-SA-4.0",
+  "license": "GPL-3.0+",
   "bugs": {
     "url": "https://github.com/nabil-g/lisa-mobile-app/issues"
   },

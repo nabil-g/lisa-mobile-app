@@ -2,6 +2,7 @@ Vue.use(Framework7Vue);
 
 var app = new Vue({
   el: "#app",
+  i18n,
   framework7: {
     root: '#app',
     routes: [],
@@ -20,36 +21,31 @@ var app = new Vue({
     },
     weather: undefined,
     socket: undefined,
+    appLanguage: undefined,
     settings: {
-        mail : {
-          enabled : undefined,
-          username : undefined,
-          password : undefined,
-          host : undefined
+        mail: {
+          enabled: undefined,
+          username: undefined,
+          password: undefined,
+          host: undefined
         },
-        alarm : {
-          enabled : undefined,
-          music_onwake : undefined,
+        alarm: {
+          enabled: undefined,
+          music_onwake: undefined,
           secondes:undefined,
-          minutes:undefined,
-          heures:undefined,
-          jour_mois:undefined,
-          mois:undefined,
-          jour_semaine:undefined
+          time: undefined,
+          weekday:undefined
         },
-        weather :{
-          weather_id : undefined,
-          cityID : undefined,
-          units : undefined
+        weather: {
+          weather_id: undefined,
+          cityID: undefined,
+          units: undefined
         },
-        present : undefined,
-        appLanguage : undefined,
+        present: undefined,
         voiceLanguage: undefined,
-        sentences : {
-          wakeup : undefined
+        sentences: {
+          wakeup: undefined
         },
-        devices : [],
-        defaultAnswers: {},
         reminders: []
       }
   },
@@ -81,12 +77,24 @@ var app = new Vue({
         this.socket.emit('music', 'stop');
       },
       stopLisa: function () {
-        if (confirm('Voulez-vous vraiment interrompre Lisa ?')) {
+        if (this.appLanguage == 'fr') {
+          var stopQuestion = 'Voulez-vous vraiment interrompre Lisa ?' ;
+        } else {
+          var stopQuestion = 'Do you really want to stop Lisa ?' ;
+        }
+
+        if (confirm(stopQuestion)) {
           this.socket.emit("cmd", "stop");
         }
       },
       shutdown: function () {
-        if (confirm('Voulez-vous vraiment éteindre le serveur ?')) {
+        if (this.appLanguage == 'fr' ) {
+          var shutQuestion = 'Voulez-vous vraiment éteindre le serveur ?';
+        } else {
+          var shutQuestion = 'Do you really want to shutdown the server ?';
+        }
+
+        if (confirm(shutQuestion)) {
           this.socket.emit('cmd',"shutdown");
         }
       },
@@ -103,27 +111,13 @@ var app = new Vue({
         this.settings.reminders.splice(index,1);
       }
   },
+  watch: {
+    appLanguage: function () {
+      i18n.locale = this.appLanguage;
+      localStorage.appLanguage = this.appLanguage;
+    }
+  },
   computed: {
-    degreesUnits: function () {
-      if (this.settings.weather.units == "imperial") {
-        return "F";
-      } else if (this.settings.weather.units == "metric") {
-        return "C";
-      }
-      else {
-        return "K";
-      }
-    },
-    alarmTime: {
-      get: function () {
-        return this.settings.alarm.heures + ":" + this.settings.alarm.minutes;
-      },
-      set: function (value) {
-        var time = value.split(':');
-        this.settings.alarm.heures = time[0];
-        this.settings.alarm.minutes = time[1];
-      }
-    },
     reminderFormFilled: function () {
       if (this.inputTime && this.inputDate && this.inputReminderText) {
         return true;
@@ -131,12 +125,27 @@ var app = new Vue({
     }
   },
   filters: {
-    moment: function (value) {
-      moment.locale(app.settings.appLanguage);
-      return moment.unix(value).format('lll');
+    momentUnix: function (value) {
+      moment.locale(app.appLanguage);
+      return moment.unix(value).calendar();
     },
-    round: function (value) {
-      return Math.round(value);
+    momentCal: function (value) {
+      moment.locale(app.appLanguage);
+      return moment(value).format('lll');
+    },
+    convert: function (value) {
+      if(app.settings.weather.units == "imperial") {
+        return Math.round(value);
+      } else {
+        return Math.round((value - 32) * (5/9));
+      }
+    },
+    degreesUnits: function (value) {
+      if (value == "imperial") {
+        return "F";
+      } else {
+        return "C";
+      }
     },
     capitalize: function (value) {
       return value.toUpperCase();
@@ -147,7 +156,6 @@ var app = new Vue({
 // watchers
 app.$watch('settings',function () {
       app.socket.emit('settings', app.settings);
-      app.socket.emit('refresh', "");
   }, {
   deep: true
 });

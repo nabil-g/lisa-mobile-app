@@ -1,21 +1,33 @@
+
 if (localStorage.lisaAddress) {
   socketCo();
 } else {
   app.$f7.loginScreen();
 }
 
+if (localStorage.appLanguage) {
+  i18n.locale = localStorage.appLanguage;
+  app.appLanguage = localStorage.appLanguage;
+} else {
+  app.appLanguage = 'en';
+}
+
 function socketCo() {
   var socket = io.connect('http://' + localStorage.lisaAddress + ":8080");
   app.socket = socket;
-
 // events
-  socket.on('connect_error', function() {
+  app.socket.on('connect_error', function() {
     console.log('Connect error !');
     socket.close();
     app.$f7.closeModal();
     app.$f7.loginScreen();
-    app.$f7.closeNotification('.notifications');
-    app.$f7.alert("<b>Erreur</b> : problème de connexion. Vérifiez votre réseau local ou l'adresse du serveur Lisa.",["Lisa"]);
+
+    if (app.appLanguage == "en") {
+      app.$f7.alert("<b>Error</b> : offline. Check your local network or the server address.",["Lisa"]);
+    } else {
+      app.$f7.alert("<b>Erreur</b> : problème de connexion. Vérifiez votre réseau local ou l'adresse du serveur Lisa.",["Lisa"]);
+    }
+
   });
 
   socket.on('connect', function () {
@@ -24,9 +36,14 @@ function socketCo() {
   });
 
   socket.on('client', function (data) {
-    if (data == true) {
-      app.$f7.closeNotification('.notifications');
-      app.$f7.addNotification({message: "Un autre client est connecté !"});
+    socket.close();
+    app.$f7.closeModal();
+    app.$f7.loginScreen();
+
+    if (app.appLanguage == 'en') {
+      app.$f7.alert("Another client is connected ! Address : " + data ,["Lisa"]);
+    } else {
+      app.$f7.alert("Un autre client s'est connecté ! Adresse : " + data ,["Lisa"]);
     }
   });
 

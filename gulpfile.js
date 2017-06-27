@@ -31,6 +31,6 @@ gulp.task('noChange', function () {
 });
 
 // exécuter des taches, d'abord clean:dist puis useref et noChange en meme temps
-gulp.task('default', function () {
+gulp.task('build', function () {
   runSequence(['useref','cssMin','noChange']);
 });
