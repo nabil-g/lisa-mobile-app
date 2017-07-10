@@ -19,18 +19,18 @@ gulp.task('useref', function () {
 });
 
 gulp.task('cssMin', function () {
-  return gulp.src('app/css/**')
+  return gulp.src('app/css/*.css')
   .pipe(plugins.if('*.css',plugins.cleanCss({compatibility: 'ie8'}))) // minifier seulement les scripts css
   .pipe(gulp.dest('dist/css/'));
 });
 
 // copier les fichiers qui n'ont pas besoin de changement
 gulp.task('noChange', function () {
-  return gulp.src('app/lib/**')
+  return gulp.src('app/lib/**/*')
   .pipe(gulp.dest('dist/lib/'));
 });
 
 // exécuter des taches, d'abord clean:dist puis useref et noChange en meme temps
-gulp.task('build', function () {
+gulp.task('default', ['clean:dist'], function () {
   runSequence(['useref','cssMin','noChange']);
 });

@@ -13,7 +13,7 @@ if (localStorage.appLanguage) {
 }
 
 function socketCo() {
-  var socket = io.connect('http://' + localStorage.lisaAddress + ":8080");
+  var socket = io.connect('http://' + localStorage.lisaAddress);
   app.socket = socket;
 // events
   app.socket.on('connect_error', function() {

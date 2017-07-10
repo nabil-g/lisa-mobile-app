@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="lib/Framework7-1.5.3/dist/css/framework7.material.colors.css">
     <link rel="stylesheet" href="lib/iconfont/material-icons.css">
     <link rel="stylesheet" href="lib/vue2-animate.min.css">
-    <link rel="stylesheet" href="lib/flatpickr.min.css">
-
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
@@ -235,21 +233,9 @@
               </f7-list-item>
 
               <f7-list-item>
-                <f7-icon slot="media" material="http"></f7-icon>
-                <f7-label>{{ $t('text.settings_mail_host') }}</f7-label>
-                <f7-input type="url" v-model.lazy="settings.mail.host"></f7-input>
-              </f7-list-item>
-
-              <f7-list-item>
                 <f7-icon slot="media" material="person"></f7-icon>
                 <f7-label>{{ $t('text.settings_mail_username') }}</f7-label>
                 <f7-input type="email" v-model.lazy="settings.mail.username"></f7-input>
-              </f7-list-item>
-
-              <f7-list-item>
-                <f7-icon slot="media" material="lock"></f7-icon>
-                <f7-label>{{ $t('text.settings_mail_pswd') }}</f7-label>
-                <f7-input type="password" v-model.lazy="settings.mail.password"></f7-input>
               </f7-list-item>
 
             </f7-list>
@@ -307,7 +293,7 @@
                 <p>{{ $t('text.login_text') }}</p>
                 <f7-list>
                   <f7-list-item>
-                    <f7-input v-model.lazy="address" type="text" placeholder="ex : 192.168.0.10"/>
+                    <f7-input v-model.lazy="address" type="text" placeholder="ex : 192.168.0.10:8000"/>
                   </f7-list-item>
                   <f7-list-item>
                     <transition name="fade">
@@ -322,20 +308,17 @@
       </f7-login-screen>
 
     </div>
-
-    <script type="text/javascript" src="cordova.js"></script>
+    <!-- <script type="text/javascript" src="cordova.js"></script> -->
     <script type="text/javascript" src="lib/Framework7-1.5.3/dist/js/framework7.min.js"></script>
     <script type="text/javascript" src="lib/vue.js"></script>
     <script type="text/javascript" src="lib/Framework7-Vue-0.8.5/dist/framework7-vue.js"></script>
     <script type="text/javascript" src="lib/socket.io.js"></script>
     <script type="text/javascript" src="lib/moment-with-locales.js"></script>
-    <script type="text/javascript" src="lib/vue-i18n"></script>
-
-    <!-- build:js js/main.js-->
+    <script type="text/javascript" src="lib/vue-i18n.js"></script>
+    <!-- build:js js/main.min.js-->
     <script type="text/javascript" src="js/translations.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" src="js/connect.js"></script>
     <!-- endbuild -->
-
   </body>
 </html>
