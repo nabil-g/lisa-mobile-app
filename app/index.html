@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Lisa</title>
-    <link rel="stylesheet" href="lib/Framework7-1.5.3/dist/css/framework7.material.min.css">
-    <link rel="stylesheet" href="lib/Framework7-1.5.3/dist/css/framework7.material.colors.css">
+    <link rel="stylesheet" href="lib/vuetify.min.css">
     <link rel="stylesheet" href="lib/iconfont/material-icons.css">
     <link rel="stylesheet" href="lib/vue2-animate.min.css">
     <link rel="stylesheet" href="css/app.css">
@@ -14,27 +13,20 @@
   <body>
 
     <div id="app" v-cloak>
-      <f7-views>
-        <f7-view main>
-          <f7-pages navbar-fixed>
-
-            <f7-page name="home">
-
-              <f7-navbar>
-                <f7-nav-left>
+      <v-app>
+              <v-toolbar>
                   <f7-link icon-material="alarm_on" href="#" data-popup=".reminders-popup" class="open-popup"></f7-link>
                 </f7-nav-left>
                  <f7-nav-center>Lisa</f7-nav-center>
                  <f7-nav-right>
                    <f7-link icon-material="settings" href="#" data-popup=".settings-popup" class="open-popup"></f7-link>
                  </f7-nav-right>
-              </f7-navbar>
+              </v-toolbar>
 
                 <!-- BLOC LORSQUE L'APPLI EST CONNECTÉ -->
 
-                <f7-block>
+                <main>
 
-                    <f7-grid>
 
                       <!-- PLAYER -->
                         <f7-col width="100" tablet-width="25">
@@ -118,7 +110,7 @@
 
 
 
-                </f7-block>
+                </main>
 
                 <f7-fab color="pink" @click="refresh">
                   <f7-icon material="refresh"></f7-icon>
@@ -130,7 +122,7 @@
             </f7-page>
 
           </f7-pages>
-        </f7-view>
+        </v-app>
 
 <!-- POP-UPS -->
 
@@ -309,9 +301,8 @@
 
     </div>
     <!-- <script type="text/javascript" src="cordova.js"></script> -->
-    <script type="text/javascript" src="lib/Framework7-1.5.3/dist/js/framework7.min.js"></script>
     <script type="text/javascript" src="lib/vue.js"></script>
-    <script type="text/javascript" src="lib/Framework7-Vue-0.8.5/dist/framework7-vue.js"></script>
+    <script type="text/javascript" src="lib/vuetify.min.js"></script>
     <script type="text/javascript" src="lib/socket.io.js"></script>
     <script type="text/javascript" src="lib/moment-with-locales.js"></script>
     <script type="text/javascript" src="lib/vue-i18n.js"></script>

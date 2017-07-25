@@ -20,9 +20,7 @@
     "automation",
     "home"
   ],
-  "dependencies": {
-    "vuejs-datepicker": "^0.7"
-  },
+  "dependencies": {},
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",

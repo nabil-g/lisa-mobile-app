@@ -3,6 +3,15 @@
 	src: url('Satisfy-Regular.ttf');
 }
 
+@font-face {
+	font-family: "Roboto";
+	src: url('../lib/fonts/Roboto-Regular.ttf');
+}
+
+body{
+	font-family: "Roboto";
+}
+
 [v-cloak] {
   display: none; /* allows to hide the element until the vue instance is ready (to make the vue syntax invisible) */
 }

@@ -1,13 +1,8 @@
-Vue.use(Framework7Vue);
+Vue.use(Vuetify);
 
 var app = new Vue({
   el: "#app",
   i18n,
-  framework7: {
-    root: '#app',
-    routes: [],
-    material: true
-  },
   data: {
     inputDate: '',
     inputTime: '',
