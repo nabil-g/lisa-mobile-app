@@ -26,8 +26,6 @@ var app = new Vue({
         mail: {
           enabled: undefined,
           username: undefined,
-          password: undefined,
-          host: undefined
         },
         alarm: {
           enabled: undefined,

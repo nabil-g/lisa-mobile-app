@@ -14,7 +14,6 @@ gulp.task('clean:dist', function () {
 gulp.task('useref', function () {
   return gulp.src('app/*.html')
     .pipe(plugins.useref())
-    .pipe(plugins.if('*.js',plugins.uglify())) // minifier seulement les scripts js
     .pipe(gulp.dest('dist'));
 });
 
@@ -24,6 +23,12 @@ gulp.task('cssMin', function () {
   .pipe(gulp.dest('dist/css/'));
 });
 
+gulp.task('uglify', function () {
+  return gulp.src('dist/js/main.min.js')
+  .pipe(plugins.uglify()) // minifier seulement les scripts js
+  .pipe(gulp.dest('dist/js'));
+});
+
 // copier les fichiers qui n'ont pas besoin de changement
 gulp.task('noChange', function () {
   return gulp.src('app/lib/**/*')
@@ -31,6 +36,6 @@ gulp.task('noChange', function () {
 });
 
 // exécuter des taches, d'abord clean:dist puis useref et noChange en meme temps
-gulp.task('default', ['clean:dist'], function () {
-  runSequence(['useref','cssMin','noChange']);
+gulp.task('default', function () {
+  runSequence('clean:dist','useref','cssMin','noChange');
 });
