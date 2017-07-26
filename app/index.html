@@ -14,22 +14,22 @@
 
     <div id="app" v-cloak>
       <v-app>
-              <v-toolbar>
-                  <f7-link icon-material="alarm_on" href="#" data-popup=".reminders-popup" class="open-popup"></f7-link>
-                </f7-nav-left>
-                 <f7-nav-center>Lisa</f7-nav-center>
-                 <f7-nav-right>
-                   <f7-link icon-material="settings" href="#" data-popup=".settings-popup" class="open-popup"></f7-link>
-                 </f7-nav-right>
-              </v-toolbar>
+        <v-toolbar dark class="primary">
+          <v-btn icon>
+            <v-icon>alarm_on</v-icon>
+          </v-btn>
+          <f7-link icon-material="alarm_on" href="#" data-popup=".reminders-popup" class="open-popup"></f7-link>
+          <v-toolbar-title class="white--text">Lisa</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon>
+            <v-icon>settings</v-icon>
+          </v-btn>
+        </v-toolbar>
 
-                <!-- BLOC LORSQUE L'APPLI EST CONNECTÉ -->
-
-                <main>
-
-
-                      <!-- PLAYER -->
-                        <f7-col width="100" tablet-width="25">
+        <!-- BLOC LORSQUE L'APPLI EST CONNECTÉ -->
+        <main>
+              <!-- PLAYER -->
+          <f7-col width="100" tablet-width="25">
                           <f7-card>
                             <f7-card-header style="overflow:hidden">
                               <i> {{ musicStatus.musicTrack }}</i>
