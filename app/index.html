@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="lib/Framework7-1.5.3/dist/css/framework7.material.min.css">
     <link rel="stylesheet" href="lib/Framework7-1.5.3/dist/css/framework7.material.colors.css">
     <link rel="stylesheet" href="lib/iconfont/material-icons.css">
+    <link rel="stylesheet" href="lib/flatpickr.min.css">
     <link rel="stylesheet" href="lib/vue2-animate.min.css">
     <link rel="stylesheet" href="css/app.css">
   </head>
@@ -105,7 +106,7 @@
                               </f7-list-item>
 
                               <f7-list-item v-if="settings.alarm.enabled">
-                                <f7-input type="time" v-model.lazy="alarmTime"></f7-input>
+                                <flat-pickr v-model.lazy="alarmTime" :config="config"></flat-pickr>
                               </f7-list-item>
 
                             </f7-list>
@@ -149,9 +150,9 @@
                 <f7-list form>
                   <f7-list-item>
                     <f7-label>{{ $t('text.reminders_select_date') }}</f7-label>
-                    <f7-input type="date" v-model.lazy="inputDate"></f7-input>
+                    <flat-pickr v-model.lazy="inputDate"></flat-pickr>
                     <f7-label>{{ $t('text.reminders_select_time') }}</f7-label>
-                    <input type="time" v-model.lazy="inputTime">
+                    <flat-pickr v-model.lazy="inputTime" :config="config"></flat-pickr>
                   </f7-list-item>
                   <f7-list-item>
                     <f7-label floating>{{ $t('text.reminders_text_read') }}</f7-label>
@@ -315,6 +316,8 @@
     <script type="text/javascript" src="lib/socket.io.js"></script>
     <script type="text/javascript" src="lib/moment-with-locales.js"></script>
     <script type="text/javascript" src="lib/vue-i18n.js"></script>
+    <script type="text/javascript" src="lib/flatpickr.min.js"></script>
+    <script type="text/javascript" src="lib/vue-flatpickr-component.js"></script>
     <!-- build:js js/main.min.js-->
     <script type="text/javascript" src="js/translations.js"></script>
     <script type="text/javascript" src="js/app.js"></script>

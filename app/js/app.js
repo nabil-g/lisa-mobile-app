@@ -1,5 +1,7 @@
 Vue.use(Framework7Vue);
 
+Vue.component('flat-pickr', VueFlatpickr.default);
+
 var app = new Vue({
   el: "#app",
   i18n,
@@ -9,6 +11,13 @@ var app = new Vue({
     material: true
   },
   data: {
+    config:{
+      enableTime: true,
+      noCalendar: true,
+      time_24hr: true, // AM/PM time picker is used by default
+      // default format
+      dateFormat: "H:i"
+    },
     inputDate: '',
     inputTime: '',
     inputReminderText: '',
